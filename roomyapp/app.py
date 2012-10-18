@@ -1,6 +1,7 @@
 import json
-from flask import Flask, request, jsonify, abort
+from flask import Flask, request, jsonify, abort, make_response
 from logbook import Logger
+from dictshield.base import ShieldException
 
 app = Flask(__name__)
 log = Logger(__name__)
@@ -12,22 +13,24 @@ from models.store import EventStore, DeviceStore
 event_store = EventStore()
 device_store = DeviceStore()
 
+__version__ = 0.1
 
 @app.route("/")
 def index():
-    return "Minge."
+    return jsonify(dict(version=__version__))
 
 
 @app.route("/device/register", methods=['POST'])
 def register_device():
-    payload = json.loads(request.data)
-    # TODO: Change to device.validate()
-    if payload.get('location'):
-        device = CameraDevice(location=payload.get('location'))
+    device = CameraDevice(**json.loads(request.data))
+    try:
+        device.validate()
         device_store.add(device)
-        # TODO: Return Safe JSON straight from the object
-        return jsonify({'device_id': str(device.guid)})
-    else:
+        response = make_response()
+        response.headers = dict(content_type="application/json")
+        response.data = device.make_json_publicsafe(device)
+        return response
+    except ShieldException:
         abort(405, 'Invalid payload')
 
 

@@ -31,3 +31,6 @@ class TestCameraDevice(object):
 
     def test_it_looks_like_a_camera_device(self):
         assert self.cd.location_name == "Mill Lane"
+
+    def test_repr(self):
+        assert repr(self.cd).startswith("<CameraDevice@")

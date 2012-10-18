@@ -42,7 +42,8 @@ class TestDeviceAPI(TestCase):
         response = self.client.post("/device/register", data=payload,
                                     content_type="application/json")
         self.assert_200(response)
-        self.assertEquals(response.json.keys(), ['device_id'])
+        print response.data
+        self.assertIn('location', response.json.keys())
 
     def test_we_bork_on_adding_a_new_device_with_a_wonky_payload(self):
         payload = json.dumps(dict(wonky="donkey"))

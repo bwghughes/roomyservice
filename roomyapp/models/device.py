@@ -9,8 +9,11 @@ class Device(Document):
 
 
 class CameraDevice(Device):
-    _public_fields = ['guid', 'created_at', 'location_name']
-    location_name = StringField()
+    _public_fields = ['guid', 'created_at', 'location']
+    location = StringField(required=True)
 
     def __init__(self, *args, **kwargs):
         super(CameraDevice, self).__init__(*args, **kwargs)
+
+    def __repr__(self):
+        return "<CameraDevice@{0}>".format(self.location)
