@@ -1,14 +1,5 @@
-MacFSEvents==0.2.8
-colorama==0.2.4
 coverage==3.5.3
 dictshield==0.4.4
-gntplib==0.5
-nose==1.2.1
-nosegrowl2==0.3
-py-Growl==0.0.7
-python-termstyle==0.1.9
-rednose==0.3
-sniffer==0.2.6
 virtualenv==1.7.2
 virtualenv-clone==0.2.4
 wsgiref==0.1.2
