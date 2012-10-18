@@ -3,3 +3,6 @@ ci:
 
 deploy:
 	dotcloud push roomyapp
+
+test:
+	nosetests --with-coverage -x --cover-package=roomyapp.models,roomyapp.app -x --cover-html
