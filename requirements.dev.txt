@@ -1,3 +1,8 @@
+Flask==0.9
+Flask-Testing==0.4
+Jinja2==2.6
+Logbook==0.3
+Werkzeug==0.8.3
 coverage==3.5.3
 dictshield==0.4.4
 virtualenv==1.7.2
