@@ -6,7 +6,9 @@ sys.path.insert(0, os.pardir)
 from nose.tools import raises
 
 from models.events import Event
-from models.store import EventStore, InvalidObjectTypeForStore
+from models.store import EventStore, DeviceStore, InvalidObjectTypeForStore
+
+from models.device import CameraDevice
 
 
 class TestEventStore(object):
@@ -38,3 +40,28 @@ class TestEventStore(object):
         self.es.add(self.e)
         event = self.es.find_by_guid(self.e.guid)
         assert event is self.e
+
+
+class TestDeviceStore(object):
+
+    def setup(self):
+        self.ds = DeviceStore()
+
+    def teardown(self):
+        pass
+
+    def test_device_can_be_added(self):
+        cd = CameraDevice()
+        self.ds.add(cd)
+        assert len(self.ds) == 1
+
+    def test_device_is_in_devices(self):
+        cd = CameraDevice()
+        self.ds.add(cd)
+        assert cd.guid in self.ds.devices()
+
+    @raises(InvalidObjectTypeForStore)
+    def test_we_can_add_only_devices_to_the_device_store(self):
+        not_a_device = dict()
+        self.ds.add(not_a_device)
+

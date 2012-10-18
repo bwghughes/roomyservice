@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 
 from models.events import Event
+from models.device import Device
+
 
 class InvalidObjectTypeForStore(Exception):
     pass
 
 
-class ObjectStore(object):
+class DictBasedObjectStore(object):
     def __init__(self, *args, **kwargs):
         self.store = {}
 
@@ -21,7 +23,7 @@ class ObjectStore(object):
         return len(self.store)
 
 
-class EventStore(ObjectStore):
+class EventStore(DictBasedObjectStore):
     def __init__(self, *args, **kwargs):
         super(EventStore, self).__init__(*args, **kwargs)
 
@@ -30,3 +32,17 @@ class EventStore(ObjectStore):
             raise InvalidObjectTypeForStore("Object should be a {} but is a {}"
                                             .format(Event, type(obj)))
         super(EventStore, self).add(obj)
+
+
+class DeviceStore(DictBasedObjectStore):
+    def __init__(self, *args, **kwargs):
+        super(DeviceStore, self).__init__(*args, **kwargs)
+
+    def add(self, obj):
+        if not isinstance(obj, Device):
+            raise InvalidObjectTypeForStore("Object should be a {} but is a {}"
+                                            .format(Device, type(obj)))
+        super(DeviceStore, self).add(obj)
+
+    def devices(self):
+        return set(self.store.keys())
