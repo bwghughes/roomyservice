@@ -9,7 +9,7 @@ from roomyapp.app import app
 from roomyapp.models.device import CameraDevice
 
 
-class TestEventAPI(TestCase):
+class TestSite(TestCase):
 
     def create_app(self):
         #app.config['TESTING'] = True
@@ -18,6 +18,13 @@ class TestEventAPI(TestCase):
     def test_we_can_get_the_index(self):
         response = self.client.get("/")
         self.assert_200(response)
+
+
+class TestEventAPI(TestCase):
+
+    def create_app(self):
+        #app.config['TESTING'] = True
+        return app
 
     def test_we_cant_post_a_camera_event_for_a_non_existent_device(self):
         response = self.client.post("/event/camera/some_cock_and_bull",
