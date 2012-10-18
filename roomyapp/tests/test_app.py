@@ -6,6 +6,7 @@ sys.path.insert(0, os.pardir)
 import json
 from flask.ext.testing import TestCase
 from roomyapp.app import app
+from roomyapp.models.device import CameraDevice
 
 
 class TestEventAPI(TestCase):
@@ -19,16 +20,23 @@ class TestEventAPI(TestCase):
         print response.data
         self.assert_200(response)
 
-    def test_we_can_post_a_camera_event(self):
-        response = self.client.post("/event/camera/87349h24jihe3p98h",
+    def test_we_cant_post_a_camera_event_for_a_non_existent_device(self):
+        response = self.client.post("/event/camera/some_cock_and_bull",
                                     data=json.dumps(dict(count=1)),
+                                    content_type="application/json")
+        self.assert_404(response)
+
+    def test_we_can_post_an_event_for_an_existing_device(self):
+        response = self.client.post("/device/register",
+                                    data=json.dumps(dict(location="Mill Lane")),
+                                    content_type="application/json")
+        new_device = CameraDevice(**response.json)
+        url = "/event/camera/{0}".format(new_device.guid)
+        print url
+        response = self.client.post(url, data=json.dumps(dict(count=1)),
                                     content_type="application/json")
         self.assert_200(response)
         self.assertEquals(response.json, {"status": "OK"})
-
-    def test_we_can_only_post_an_event_for_an_existing_device(self):
-        # Create device
-        pass
 
 
 class TestDeviceAPI(TestCase):
@@ -42,7 +50,6 @@ class TestDeviceAPI(TestCase):
         response = self.client.post("/device/register", data=payload,
                                     content_type="application/json")
         self.assert_200(response)
-        print response.data
         self.assertIn('location', response.json.keys())
 
     def test_we_bork_on_adding_a_new_device_with_a_wonky_payload(self):
@@ -50,4 +57,3 @@ class TestDeviceAPI(TestCase):
         response = self.client.post("/device/register", data=payload,
                                     content_type="application/json")
         self.assert_405(response)
-

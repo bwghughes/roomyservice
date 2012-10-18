@@ -7,12 +7,12 @@ from dictshield.fields import StringField, UUIDField, DateTimeField, \
 
 class Event(Document):
     guid = UUIDField(auto_fill=True)
-    device_id = StringField(max_length=16)
+    device_id = StringField(max_length=36, required=True)
     timestamp = DateTimeField(default=datetime.now)
 
 
 class CameraEvent(Event):
-    count = IntField()
+    count = IntField(required=True)
     image_location = URLField(default=None)
 
     def __init__(self, *args, **kwargs):

@@ -15,6 +15,7 @@ device_store = DeviceStore()
 
 __version__ = 0.1
 
+
 @app.route("/")
 def index():
     return jsonify(dict(version=__version__))
@@ -36,13 +37,20 @@ def register_device():
 
 @app.route("/event/camera/<device_id>", methods=["POST"])
 def camera_event(device_id):
-    payload = json.loads(request.data)
-    count = payload.get('count')
-    log.info('Got count from {0} of {1}'.format(device_id, count))
-    camera_event = CameraEvent(device_id=device_id, count=count)
-    event_store.add(camera_event)
-    log.debug('Now have {} in event store'.format(len(event_store)))
-    return jsonify({'status': 'OK'})
+    camera_event = CameraEvent(**json.loads(request.data))
+    if device_id in device_store.devices():
+        try:
+            # Now we need to set it
+            camera_event.device_id = device_id
+            camera_event.validate()
+            event_store.add(camera_event)
+            return jsonify({'status': 'OK'})
+        except ShieldException, e:
+            print e
+            log.error("Invalid payload - {}".format(e))
+            abort(405, 'Invalid payload')
+    else:
+        abort(404)
 
 
 if __name__ == "__main__":

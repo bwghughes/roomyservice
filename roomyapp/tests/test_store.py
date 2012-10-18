@@ -58,7 +58,7 @@ class TestDeviceStore(object):
     def test_device_is_in_devices(self):
         cd = CameraDevice()
         self.ds.add(cd)
-        assert cd.guid in self.ds.devices()
+        assert str(cd.guid) in self.ds.devices()
 
     @raises(InvalidObjectTypeForStore)
     def test_we_can_add_only_devices_to_the_device_store(self):

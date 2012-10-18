@@ -45,4 +45,4 @@ class DeviceStore(DictBasedObjectStore):
         super(DeviceStore, self).add(obj)
 
     def devices(self):
-        return set(self.store.keys())
+        return [str(key) for key in self.store.keys()]
