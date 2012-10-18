@@ -6,6 +6,7 @@ from dictshield.fields import StringField, UUIDField, DateTimeField
 class Device(Document):
     guid = UUIDField(auto_fill=True)
     created_at = DateTimeField(default=datetime.now)
+    #belongs_to = UUIDField(auto_fill=False, required=True)
 
 
 class CameraDevice(Device):

@@ -2,6 +2,7 @@
 
 from roomyapp.models.events import Event
 from roomyapp.models.device import Device
+from roomyapp.models.user import User
 
 
 class InvalidObjectTypeForStore(Exception):
@@ -19,8 +20,14 @@ class DictBasedObjectStore(object):
     def find_by_guid(self, guid):
         return self.store.get(guid, None)
 
+    def all(self):
+        return self.store.values()
+
     def __len__(self):
         return len(self.store)
+
+    def __repr__(self):
+        return "<DictBasedObjectStore: {0} objects>".format(len(self.store))
 
 
 class EventStore(DictBasedObjectStore):
@@ -46,3 +53,21 @@ class DeviceStore(DictBasedObjectStore):
 
     def devices(self):
         return [str(key) for key in self.store.keys()]
+
+
+class UserStore(DictBasedObjectStore):
+    def __init__(self, *args, **kwargs):
+        super(UserStore, self).__init__(*args, **kwargs)
+
+    # def add(self, obj):
+    #     if not isinstance(obj, User):
+    #         raise InvalidObjectTypeForStore("Object should be a {} but is a {}"
+    #                                         .format(User, type(obj)))
+    #     super(UserStore, self).add(obj)
+
+    # def users(self):
+    #     return [str(key) for key in self.store.keys()]
+
+    # def find_by_guid(self, guid):
+    #     return self.store.get(guid, None)
+

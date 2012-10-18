@@ -4,12 +4,14 @@ import sys
 sys.path.insert(0, os.pardir)
 
 from roomyapp.models.device import Device, CameraDevice
+from roomyapp.models.store import UserStore
 
 
 class TestDevice(object):
 
     def setup(self):
         self.d = Device()
+        self.user_store = UserStore()
 
     def teardown(self):
         pass
@@ -19,6 +21,9 @@ class TestDevice(object):
 
     def test_device_has_a_created_at_timestamp(self):
         assert self.d.created_at
+
+    # def test_device_has_a_valid_user_associated_with_it(self):
+    #     assert self.user_store.find_by_guid is self.d.belongs_to
 
 
 class TestCameraDevice(object):

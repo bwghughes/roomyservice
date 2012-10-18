@@ -1,19 +1,20 @@
+#!/usr/bin/env python
 import json
-from flask import Flask, request, jsonify, abort, make_response
 from logbook import Logger
+from flask import Flask, request, jsonify, abort, make_response, render_template
 from dictshield.base import ShieldException
-
-app = Flask(__name__)
-log = Logger(__name__)
 
 from models.events import CameraEvent
 from models.device import CameraDevice
 from models.store import EventStore, DeviceStore
 
+
+app = Flask(__name__)
+log = Logger(__name__)
+__version__ = "0.1"
+
 event_store = EventStore()
 device_store = DeviceStore()
-
-__version__ = 0.1
 
 
 @app.route("/")

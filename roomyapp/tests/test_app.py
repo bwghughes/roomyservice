@@ -38,18 +38,11 @@ class TestEventAPI(TestCase):
                                     data=json.dumps(dict(location="Mill Lane")),
                                     content_type="application/json")
         new_device = CameraDevice(**response.json)
-        url = "/event/camera/{0}".format(new_device.guid)
-        response = self.client.post(url, data=json.dumps(dict(count=1)),
+        response = self.client.post("/event/camera/{0}".format(new_device.guid),
+                                    data=json.dumps(dict(count=1)),
                                     content_type="application/json")
         self.assert_200(response)
         self.assertEquals(response.json, {"status": "OK"})
-
-    def test_we_can_register_a_new_valid_device(self):
-        response = self.client.post("/device/register",
-                                    data=json.dumps(dict(location="Mill Lane")),
-                                    content_type="application/json")
-        new_device = CameraDevice(**response.json)
-        self.assertTrue(new_device.validate())
 
 
 class TestDeviceAPI(TestCase):
@@ -58,12 +51,12 @@ class TestDeviceAPI(TestCase):
         #app.config['TESTING'] = True
         return app
 
-    def test_we_can_add_a_new_device(self):
-        payload = json.dumps(dict(location="Mill Lane"))
-        response = self.client.post("/device/register", data=payload,
+    def test_we_can_register_a_new_valid_device(self):
+        response = self.client.post("/device/register",
+                                    data=json.dumps(dict(location="Mill Lane")),
                                     content_type="application/json")
-        self.assert_200(response)
-        self.assertIn('location', response.json.keys())
+        new_device = CameraDevice(**response.json)
+        self.assertTrue(new_device.validate())
 
     def test_we_bork_on_adding_a_new_device_with_a_wonky_payload(self):
         payload = json.dumps(dict(wonky="donkey"))
