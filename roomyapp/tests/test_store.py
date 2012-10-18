@@ -5,10 +5,10 @@ sys.path.insert(0, os.pardir)
 
 from nose.tools import raises
 
-from models.events import Event
-from models.store import EventStore, DeviceStore, InvalidObjectTypeForStore
+from roomyapp.models.events import Event
+from roomyapp.models.store import EventStore, DeviceStore, InvalidObjectTypeForStore
 
-from models.device import CameraDevice
+from roomyapp.models.device import CameraDevice
 
 
 class TestEventStore(object):

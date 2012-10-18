@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-from models.events import Event
-from models.device import Device
+from roomyapp.models.events import Event
+from roomyapp.models.device import Device
 
 
 class InvalidObjectTypeForStore(Exception):

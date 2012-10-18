@@ -3,7 +3,7 @@ import os
 import sys
 sys.path.insert(0, os.pardir)
 
-from models.device import Device, CameraDevice
+from roomyapp.models.device import Device, CameraDevice
 
 
 class TestDevice(object):

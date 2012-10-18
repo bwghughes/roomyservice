@@ -3,7 +3,7 @@ import os
 import sys
 sys.path.insert(0, os.pardir)
 
-from models.events import Event, CameraEvent
+from roomyapp.models.events import Event, CameraEvent
 
 
 class TestEvent(object):

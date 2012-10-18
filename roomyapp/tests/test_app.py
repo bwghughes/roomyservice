@@ -5,7 +5,7 @@ sys.path.insert(0, os.pardir)
 
 import json
 from flask.ext.testing import TestCase
-from app import app
+from roomyapp.app import app
 
 
 class TestEventAPI(TestCase):
