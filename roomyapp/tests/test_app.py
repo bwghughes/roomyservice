@@ -17,7 +17,6 @@ class TestEventAPI(TestCase):
 
     def test_we_can_get_the_index(self):
         response = self.client.get("/")
-        print response.data
         self.assert_200(response)
 
     def test_we_cant_post_a_camera_event_for_a_non_existent_device(self):
@@ -27,16 +26,23 @@ class TestEventAPI(TestCase):
         self.assert_404(response)
 
     def test_we_can_post_an_event_for_an_existing_device(self):
+        # Register a new device, then send an event down.
         response = self.client.post("/device/register",
                                     data=json.dumps(dict(location="Mill Lane")),
                                     content_type="application/json")
         new_device = CameraDevice(**response.json)
         url = "/event/camera/{0}".format(new_device.guid)
-        print url
         response = self.client.post(url, data=json.dumps(dict(count=1)),
                                     content_type="application/json")
         self.assert_200(response)
         self.assertEquals(response.json, {"status": "OK"})
+
+    def test_we_can_register_a_new_valid_device(self):
+        response = self.client.post("/device/register",
+                                    data=json.dumps(dict(location="Mill Lane")),
+                                    content_type="application/json")
+        new_device = CameraDevice(**response.json)
+        self.assertTrue(new_device.validate())
 
 
 class TestDeviceAPI(TestCase):
