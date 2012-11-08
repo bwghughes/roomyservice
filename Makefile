@@ -5,7 +5,7 @@ deploy:
 	dotcloud push roomyapp
 
 test:
-	nosetests --with-coverage -x --cover-package=pintapp.models,pintnapp.app -x --cover-html
+	nosetests --with-coverage -x --cover-package=roomyapp -x --cover-html
 
 doc:
 	echo "Docs"
