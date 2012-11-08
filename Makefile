@@ -1,5 +1,5 @@
 ci:
-	sniffer . -x --with-growl -x --with-coverage -x --cover-package=pintapp.models,pintapp.app -x --cover-html
+	sniffer . -x --with-growl -x --with-coverage -x --cover-package=roomyapp -x --cover-html
 
 deploy:
 	dotcloud push roomyapp

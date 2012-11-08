@@ -1,19 +1,19 @@
 #!/usr/bin/env python
 from datetime import datetime
-from dictshield.document import Document
-from dictshield.fields import StringField, UUIDField, DateTimeField, \
-                              IntField, URLField
+from schematics.models import Model
+from schematics.types import StringType, UUIDType, DateTimeType, IntType\
+                             , URLType
 
 
-class Event(Document):
-    guid = UUIDField(auto_fill=True)
-    device_id = StringField(max_length=36, required=True)
-    timestamp = DateTimeField(default=datetime.now)
+class Event(Model):
+    guid = UUIDType(auto_fill=True)
+    device_id = StringType(max_length=36, required=True)
+    timestamp = DateTimeType(default=datetime.now)
 
 
 class CameraEvent(Event):
-    count = IntField(required=True)
-    image_location = URLField(default=None)
+    count = IntType(required=True)
+    image_location = URLType(default=None)
 
     def __init__(self, *args, **kwargs):
         super(CameraEvent, self).__init__(*args, **kwargs)

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import json
 from logbook import Logger
-from flask import Flask, request, jsonify, abort, make_response, render_template
-from dictshield.base import ShieldException
+from flask import Flask, request, jsonify, abort, make_response
+from schematics.base import TypeException
 
 from models.events import CameraEvent
 from models.device import CameraDevice
@@ -32,7 +32,8 @@ def register_device():
         response.headers = dict(content_type="application/json")
         response.data = device.make_json_publicsafe(device)
         return response
-    except ShieldException:
+    except TypeException, e:
+        print e
         abort(405, 'Invalid payload')
 
 
