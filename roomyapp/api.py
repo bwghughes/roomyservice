@@ -36,20 +36,20 @@ class ApiView(FlaskView):
             print e
             abort(405, 'Invalid payload')
 
+
     @route("/device/event/<device_id>/", methods=["POST"])
-    def camera_event(self, device_id):
-        camera_event = CameraEvent(**json.loads(request.data))
-        # TODO: Write UUID converter and commit to Werkzeug Project
-        if uuid.UUID(device_id) in device_store.devices():
-            try:
-                # Now we need to set it
-                camera_event.device_id = device_id
-                camera_event.validate()
-                event_store.add(camera_event)
-                return jsonify({'status': 'OK'})
-            except TypeException, e:
-                print e
-                log.error("Invalid payload - {}".format(e))
-                abort(405, 'Invalid payload')
-        else:
+    def camera_event(self, device_id=None):
+        try:
+            camera_event = CameraEvent(**request.json)
+            camera_event.device_id = device_id
+            camera_event.validate()
+            event_store.add(camera_event)
+            return jsonify({'status': 'OK'})
+        except TypeException, e:
+            print e
+            log.error("Invalid payload - {}".format(e))
+            abort(405, 'Invalid payload')
+
+    def before_camera_event(self, *args, **kwargs):
+        if not uuid.UUID(kwargs.get('device_id')) in device_store.devices():
             abort(404)

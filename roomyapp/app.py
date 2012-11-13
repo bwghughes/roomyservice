@@ -5,7 +5,9 @@ from logbook import Logger
 app = Flask(__name__)
 log = Logger(__name__)
 
-ApiView.register(app, route_base='/')
+
+ApiView.register(app, route_base='/') # TODO: Subdomain testing.
+
 
 if __name__ == "__main__":
     app.run(debug=True)
