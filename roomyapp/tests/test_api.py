@@ -19,7 +19,7 @@ class TestSite(TestCase):
     def test_we_can_get_the_index_and_it_has_an_api_version(self):
         response = self.client.get("/")
         self.assert_200(response)
-        assert response.json.has_key('version')
+        assert 'version' in response.json.keys()
 
 
 class TestEventAPI(TestCase):
@@ -42,7 +42,6 @@ class TestEventAPI(TestCase):
         print self.client.application.url_map.converters
         new_device = CameraDevice(**response.json)
         assert new_device.validate()
-        print dir(new_device)
         response = self.client.post("/device/event/{0}/".format(new_device.guid),
                                     data=json.dumps(dict(count=1)),
                                     content_type="application/json")
@@ -71,3 +70,6 @@ class TestDeviceAPI(TestCase):
         response = self.client.post("/device/", data=payload,
                                     content_type="application/json")
         self.assert_405(response)
+
+
+
