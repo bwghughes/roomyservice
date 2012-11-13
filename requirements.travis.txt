@@ -1,5 +1,6 @@
 Flask==0.9
 Flask-Testing==0.4
+Flask-Classy==0.4.3
 Jinja2==2.6
 Logbook==0.3
 Werkzeug==0.8.3

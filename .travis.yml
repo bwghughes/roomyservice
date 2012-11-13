@@ -3,7 +3,7 @@ python:
   - "2.7"
 
 # command to install dependencies
-install: "pip install -r requirements.dev.txt --use-mirrors"
+install: "pip install -r requirements.travis.txt --use-mirrors"
 
 # command to run tests
 script: make test
