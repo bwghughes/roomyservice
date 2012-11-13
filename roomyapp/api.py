@@ -3,18 +3,16 @@ import json
 import uuid
 from flask import request, jsonify, abort, make_response
 from flask.ext.classy import FlaskView, route
-
-from models.events import CameraEvent
-from models.device import CameraDevice
-from models.store import EventStore, DeviceStore
-
 from schematics.base import TypeException
 
-
-__version__ = "0.1"
+from .models.events import CameraEvent
+from .models.device import CameraDevice
+from .models.store import EventStore, DeviceStore
 
 event_store = EventStore()
 device_store = DeviceStore()
+
+__version__ = "0.1"
 
 
 class ApiView(FlaskView):

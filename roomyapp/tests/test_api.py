@@ -6,7 +6,7 @@ sys.path.insert(0, os.pardir)
 import json
 from flask.ext.testing import TestCase
 from roomyapp.app import app
-from roomyapp.api import device_store
+from roomyapp.api import device_store, event_store
 from roomyapp.models.device import CameraDevice
 
 
@@ -34,6 +34,7 @@ class TestEventAPI(TestCase):
                                     content_type="application/json")
         self.assert_404(response)
 
+
     def test_we_can_post_an_event_for_an_existing_device(self):
         # Register a new device, then send an event down.
         response = self.client.post("/device/",
@@ -46,7 +47,9 @@ class TestEventAPI(TestCase):
                                     data=json.dumps(dict(count=1)),
                                     content_type="application/json")
         self.assert_200(response)
+        assert len(event_store) == 1
         self.assertEquals(response.json, {"status": "OK"})
+
 
 
 class TestDeviceAPI(TestCase):
