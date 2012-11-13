@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
-from roomyapp.models.events import Event
-from roomyapp.models.device import Device
+import uuid
+from .events import Event
+from .device import Device
 
 
 class InvalidObjectTypeForStore(Exception):
@@ -51,4 +52,4 @@ class DeviceStore(DictBasedObjectStore):
         super(DeviceStore, self).add(obj)
 
     def devices(self):
-        return [str(key) for key in self.store.keys()]
+        return [key for key in self.store.keys()]

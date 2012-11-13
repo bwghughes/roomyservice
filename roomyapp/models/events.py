@@ -14,6 +14,7 @@ class Event(Model):
 class CameraEvent(Event):
     count = IntType(required=True)
     image_location = URLType(default=None)
+    device_id = UUIDType(required=True)
 
     def __init__(self, *args, **kwargs):
         super(CameraEvent, self).__init__(*args, **kwargs)

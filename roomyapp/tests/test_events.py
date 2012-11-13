@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 import sys
+from uuid import uuid4
 sys.path.insert(0, os.pardir)
 
 from roomyapp.models.events import Event, CameraEvent
@@ -24,7 +25,7 @@ class TestEvent(object):
 
 class TestCameraEvent(object):
     def setup(self):
-        self.ce = CameraEvent(device_id="kjwhk", count=2)
+        self.ce = CameraEvent(device_id=str(uuid4()), count=2)
 
     def teardown(self):
         pass
