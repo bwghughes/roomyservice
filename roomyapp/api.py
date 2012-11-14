@@ -5,9 +5,9 @@ from flask import request, jsonify, abort, make_response
 from flask.ext.classy import FlaskView, route
 from schematics.base import TypeException
 
-from .models.events import CameraEvent
-from .models.device import CameraDevice
-from .models.store import EventStore, DeviceStore
+from models.events import CameraEvent
+from models.device import CameraDevice
+from models.store import EventStore, DeviceStore
 
 event_store = EventStore()
 device_store = DeviceStore()

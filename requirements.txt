@@ -1,8 +1,7 @@
 Flask==0.9
+Flask-Classy==0.4.3
 Jinja2==2.6
 Logbook==0.3
 Werkzeug==0.8.3
-dictshield==0.4.4
-virtualenv==1.7.2
-virtualenv-clone==0.2.4
+schematics==0.5
 wsgiref==0.1.2
